@@ -1,0 +1,55 @@
+---
+title: "BA Assignment 1"
+author: "Tejaswini Yeruva"
+date: "2022-09-30"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+##1.ISLR package has already been installed just called the library.
+
+```{r cars}
+library(ISLR)
+```
+
+##2.Called the ISLR library and then printed the summary of the Carseats dataset along with number of observations(rows)
+```{r}
+library(ISLR)
+print(Carseats)
+summary(Carseats)
+nrow(Carseats)
+```
+
+#3.Maximum value of the advertising attribute is calculated.
+```{r}
+max(Carseats$Advertising)
+```
+
+##4.Calculated the IQR of the Price attribute.
+
+```{r}
+IQR(Carseats$Price)
+```
+
+##5.Scatter plot between Price and Sales
+
+```{r}
+plot(Carseats$Sales, Carseats$Price, main = "Scatterplot between Price and Sales", xlab = "Sales", ylab = "Price",abline(Carseats$Sales,Carseats$Price))
+
+barplot(Carseats$Price, Carseats$Sales)
+
+```
+
+## Calculated the correlation between sales and price and derived value is negative which mean the sales and price tend to move in opposite direction and the correlation coeffcient is very week.
+```{r}
+cor.test(Carseats$Sales, Carseats$Price)
+
+```
+
