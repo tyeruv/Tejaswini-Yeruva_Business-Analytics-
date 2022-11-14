@@ -1,0 +1,129 @@
+---
+title: "BA_Assignment_3"
+author: "Tejaswini Yeruva"
+date: "2022-11-13"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##1. Running the code that is provided.
+
+```{r}
+set.seed(2017) 
+X=runif(100)*10 
+Y=X*4+3.45 
+Y=rnorm(100)*0.29*Y+Y
+```
+
+## a) Using plot function Y against X using the below command.
+
+```{r}
+cor(X,Y)
+plot(X,Y)
+```
+
+## Since the Plot shows the positive correlation, Linear model can fit Y based on X.
+
+## b) Simple linear model Y based on X.
+
+```{r}
+model<-lm(Y~X)
+summary(model)
+```
+## The equation model is Y=3.6108*X+4.4655.
+
+## Accuracy of the above linear model is 65.17%, above equation explains Y based on x.
+
+## c) Coefficient of Determination
+```{r}
+(cor(Y,X))^2
+
+## Coefficient of Determination= (Correlation Coefficient)^2
+## Multiple R-square can be determined by squaring of correlation.
+
+hist(model$residuals,freq = FALSE,ylim = c(0,0.05))
+qqnorm(model$residuals,col="red")
+
+## The above graph illustrates that the residuals are normally distrubuted, So the linear model is appropriate.
+
+```
+
+## 2) Using 'mtcars' dataset:
+## a)
+```{r}
+head(mtcars)
+summary(lm(hp~wt,data=mtcars))
+summary(lm(hp~mpg,data=mtcars))
+## By using the above linear model we see that the Multiple R-squared, mpg has high r square value 60% compared to wt of car i.e 43.95%
+
+## Opinion made by Chris is right.
+```
+
+## b) 
+```{r}
+summary(model2<-lm(hp~cyl+mpg,data = mtcars))
+((model2$coefficients[2]*4)+model2$coefficients[1])+(model2$coefficients[3]*22)
+predict(model2,data.frame(cyl=4,mpg=22),interval = "prediction",level=0.85)
+```
+
+## 3) Installing the required package:
+```{r}
+library(mlbench)
+data(BostonHousing)
+```
+
+## a) 
+```{r}
+hos<-lm(medv~crim+zn+ptratio+chas,data=BostonHousing)
+summary(hos)
+## R-Square value is very low i.e 36% by this we can tell that it is not an accurate model.
+```
+
+## b1)
+```{r}
+summary(hos1<-lm(medv~chas,data = BostonHousing))
+hos1$coefficients
+(hos1$coefficients[2]*0)+hos1$coefficients[1]
+(hos1$coefficients[2]*1)+hos1$coefficients[1]
+ ## From the above correlation coefficient, the house bound with Chas river is more expensive than the one not bound of 0 with value 4.3
+```
+
+## b2)
+```{r}
+summary(hos2<-lm(medv~ptratio,data = BostonHousing))
+(hos2$coefficients[2]*15)+hos2$coefficients[1]
+(hos2$coefficients[2]*18)+hos2$coefficients[1]
+
+## From the above correlation coefficients, the coefficients are negative hence we can say that if the ptratio increases the housing price decreases.
+
+## The price of house which has ptratio of 15 is more expensive compared to price of house which has a ptratio of 18 by 6.471
+
+```
+
+## c)
+```{r}
+summary(hos)
+## A low p-value i.e < 0.05 tells that we can reject the null hypothesis.
+## Hence from the model summary none of the independent variables are considerable.
+```
+
+## d)
+```{r}
+anova(hos)
+
+## Order of importance of the values by comparing p values:
+## 1) crim - Accounts for 15.08% 
+## 2) ptratio - accounts for 11.02%
+## 3) zn - accounts for 8.32%
+## 4)chas - accounts for 1.56%
+
+## In total the model accounts for 64.01 and it can be improved.
+
+```
+
